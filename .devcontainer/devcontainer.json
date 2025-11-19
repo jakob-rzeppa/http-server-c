@@ -5,8 +5,17 @@
         // Sets the run context to one level up instead of the .devcontainer folder.
         "context": "..",
         "dockerfile": "../Dockerfile"
-    }
-    // "forwardPorts": [],
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools-extension-pack"
+            ]
+        }
+    },
+    "forwardPorts": [
+        8080
+    ]
     // "postCreateCommand": "cat /etc/os-release",
     // "customizations": {},
     // "remoteUser": "devcontainer"
