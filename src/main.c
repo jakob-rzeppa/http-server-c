@@ -6,11 +6,8 @@
 #include <unistd.h>
 
 #include "/workspaces/http-server-c/src/response_handler.c"
+#include "/workspaces/http-server-c/src/socket_handler.c"
 
-// The programm will try to connect to the PORT
-// If the port is in use, it will try the next port, until reaching the MAX_PORT
-#define PORT 3000
-#define MAX_PORT 4000
 #define MAX_QUEUED_CONNECTIONS 3
 
 void listenForConnections(int server_fd)
@@ -44,7 +41,6 @@ void listenForConnections(int server_fd)
 int main(int argc, char const *argv[])
 {
     int server_socket;
-    struct sockaddr_in server_addr;
 
     // creating the socket - 0 for default protocol (for SOCK_STREAM TCP)
     server_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -56,29 +52,10 @@ int main(int argc, char const *argv[])
     printf("Socket connected\n");
 
     // binding the socket to the PORT
-    int bindRes = -1; // initialized to an error res
-    int port = PORT;
-
-    server_addr.sin_family = PF_INET;         // uses the internet namespace
-    server_addr.sin_addr.s_addr = INADDR_ANY; // the address to accept incoming messages
-    server_addr.sin_port = htons(PORT);       // htons converts a 16-bit int from host byte order to network byte order
-    do
+    int port = bindSocketToPort(server_socket);
+    if (port < 0)
     {
-        server_addr.sin_port = htons(port);
-
-        bindRes = bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
-
-        if (bindRes < 0)
-        {
-            perror("bind failed");
-            printf("Trying with the next port\n");
-            port++;
-        }
-    } while ((bindRes < 0 && port < MAX_PORT));
-
-    if (bindRes < 0)
-    {
-        perror("bind failed for all ports");
+        perror("bind failed");
         close(server_socket);
         exit(EXIT_FAILURE);
     }
