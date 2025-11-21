@@ -5,7 +5,12 @@
 #include <netinet/in.h>
 #include <unistd.h>
 
-#define PORT 8080
+#include "/workspaces/http-server-c/src/response_handler.c"
+
+// The programm will try to connect to the PORT
+// If the port is in use, it will try the next port, until reaching the MAX_PORT
+#define PORT 3000
+#define MAX_PORT 4000
 #define MAX_QUEUED_CONNECTIONS 3
 
 void listenForConnections(int server_fd)
@@ -28,14 +33,8 @@ void listenForConnections(int server_fd)
 
         printf("connection recieved");
 
-        const char *response =
-            "HTTP/1.1 200 OK\r\n"
-            "Content-Type: application/json\r\n"
-            "Content-Length: 27\r\n"
-            "\r\n"
-            "{ \"status\": \"success\" }";
-
-        send(client_socket, response, strlen(response), 0);
+        char *body = "{\"t\": \"1\"}";
+        sendResponse(client_socket, 200, body);
 
         close(client_socket);
         client_socket = -1;
@@ -46,9 +45,6 @@ int main(int argc, char const *argv[])
 {
     int server_socket;
     struct sockaddr_in server_addr;
-    server_addr.sin_family = PF_INET;         // uses the internet namespace
-    server_addr.sin_addr.s_addr = INADDR_ANY; // the address to accept incoming messages
-    server_addr.sin_port = htons(PORT);       // htons converts a 16-bit int from host byte order to network byte order
 
     // creating the socket - 0 for default protocol (for SOCK_STREAM TCP)
     server_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -60,13 +56,36 @@ int main(int argc, char const *argv[])
     printf("Socket connected\n");
 
     // binding the socket to the PORT
-    if ((bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr))) < 0)
+    int bindRes = -1; // initialized to an error res
+    int port = PORT;
+
+    server_addr.sin_family = PF_INET;         // uses the internet namespace
+    server_addr.sin_addr.s_addr = INADDR_ANY; // the address to accept incoming messages
+    server_addr.sin_port = htons(PORT);       // htons converts a 16-bit int from host byte order to network byte order
+    do
     {
-        perror("bind failed");
+        server_addr.sin_port = htons(port);
+
+        bindRes = bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
+
+        if (bindRes < 0)
+        {
+            perror("bind failed");
+            printf("Trying with the next port\n");
+            port++;
+        }
+    } while ((bindRes < 0 && port < MAX_PORT));
+
+    if (bindRes < 0)
+    {
+        perror("bind failed for all ports");
         close(server_socket);
         exit(EXIT_FAILURE);
     }
-    printf("Socket bound to PORT %d\n", PORT);
+    else
+    {
+        printf("Socket bound to PORT %d\n", port);
+    }
 
     // listening to the socket
     if ((listen(server_socket, MAX_QUEUED_CONNECTIONS)) < 0)
