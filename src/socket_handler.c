@@ -25,14 +25,20 @@ int bind_socket_to_port(int server_socket)
 
         if (bind_res < 0)
         {
+            throw_error_gracefully("port %d already in use", port);
             port++;
         }
     } while ((bind_res < 0 && port <= MAX_PORT));
 
     if (bind_res < 0)
+    {
+        throw_error_gracefully("no avaliable port found");
         return -1;
+    }
     else
+    {
         return port;
+    }
 }
 
 void listen_for_connections(int server_fd)

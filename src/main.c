@@ -20,7 +20,6 @@ int main(int argc, char const *argv[])
     int port = bind_socket_to_port(server_socket);
     if (port < 0)
     {
-        throw_error_gracefully("socket failed: %s", strerror(errno));
         close(server_socket);
         exit(EXIT_FAILURE);
     }
