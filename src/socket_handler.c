@@ -14,7 +14,7 @@
  *
  * @return the port bound to or -1 for failed to bind port
  */
-int bindSocketToPort(int server_socket)
+int bind_socket_to_port(int server_socket)
 {
     struct sockaddr_in server_addr;
 
@@ -42,7 +42,7 @@ int bindSocketToPort(int server_socket)
         return port;
 }
 
-void listenForConnections(int server_fd)
+void listen_for_connections(int server_fd)
 {
     printf("Listening to connections...\n");
 
@@ -63,7 +63,7 @@ void listenForConnections(int server_fd)
         printf("connection recieved");
 
         char *body = "{\"t\": \"1\"}";
-        sendResponse(client_socket, 200, body);
+        send_response(client_socket, 200, body);
 
         close(client_socket);
         client_socket = -1;

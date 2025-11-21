@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
     printf("Socket connected\n");
 
     // binding the socket to the PORT
-    int port = bindSocketToPort(server_socket);
+    int port = bind_socket_to_port(server_socket);
     if (port < 0)
     {
         perror("bind failed");
@@ -42,7 +42,7 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE);
     }
 
-    listenForConnections(server_socket);
+    listen_for_connections(server_socket);
 
     printf("Shutdown server");
     close(server_socket);

@@ -3,7 +3,7 @@
 #include <string.h>
 #include <sys/socket.h>
 
-char *generateStatusCodeLine(int statusCode)
+char *generate_status_code_line(int statusCode)
 {
     switch (statusCode)
     {
@@ -18,10 +18,10 @@ char *generateStatusCodeLine(int statusCode)
     }
 }
 
-void sendSocketHeaders(int client_socket, int statusCode, int bodySize)
+void send_socket_headers(int client_socket, int statusCode, int bodySize)
 {
     // --- status code line ---
-    char *statusCodeLine = generateStatusCodeLine(statusCode);
+    char *statusCodeLine = generate_status_code_line(statusCode);
     send(client_socket, statusCodeLine, strlen(statusCodeLine), 0);
 
     // --- content type ---
@@ -44,9 +44,9 @@ void sendSocketHeaders(int client_socket, int statusCode, int bodySize)
     send(client_socket, newlineLine, strlen(newlineLine), 0);
 }
 
-int sendResponse(int client_socket, int statusCode, char *body)
+int send_response(int client_socket, int statusCode, char *body)
 {
-    sendSocketHeaders(client_socket, statusCode, strlen(body));
+    send_socket_headers(client_socket, statusCode, strlen(body));
 
     send(client_socket, body, strlen(body), 0);
 }

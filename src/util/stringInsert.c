@@ -8,7 +8,7 @@
  * @param index the index to start inserting to
  * @param source the string to be inserted
  */
-int stringInsert(char *target, int targetBufferSize, int *index, const char *source)
+int string_insert(char *target, int targetBufferSize, int *index, const char *source)
 {
     int sourceLength = strlen(source);
     if (*index + sourceLength >= targetBufferSize - 1)
