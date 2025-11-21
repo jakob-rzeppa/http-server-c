@@ -24,13 +24,13 @@ int route_request(int client_socket, char *method, char *path)
         }
         else
         {
-            throw_error_gracefully("invalid request: invalid method %s for %s", method, path);
+            log_error("invalid request: invalid method %s for %s", method, path);
             return -1;
         }
     }
     else
     {
-        throw_error_gracefully("invalid request: invalid path %s", path);
+        log_error("invalid request: invalid path %s", path);
         return -1;
     }
 }

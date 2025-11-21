@@ -11,7 +11,7 @@ int main(int argc, char const *argv[])
     server_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket < 0)
     {
-        throw_error_gracefully("socket failed: %s", strerror(errno));
+        log_error("socket failed: %s", strerror(errno));
         exit(EXIT_FAILURE);
     }
     printf("Socket connected\n");
@@ -31,7 +31,7 @@ int main(int argc, char const *argv[])
     // listening to the socket
     if ((listen(server_socket, MAX_QUEUED_CONNECTIONS)) < 0)
     {
-        throw_error_gracefully("listen failed: %s", strerror(errno));
+        log_error("listen failed: %s", strerror(errno));
         close(server_socket);
         exit(EXIT_FAILURE);
     }

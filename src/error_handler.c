@@ -1,6 +1,6 @@
 #include "/workspaces/http-server-c/src/common.h"
 
-void throw_error_gracefully(const char *format, ...)
+void log_error(const char *format, ...)
 {
     va_list args;
 

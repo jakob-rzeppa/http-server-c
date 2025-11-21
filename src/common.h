@@ -24,6 +24,6 @@
 
 // Shared function declarations
 int string_insert(char *target, int targetBufferSize, int *index, const char *source);
-void throw_error_gracefully(const char *format, ...);
+void log_error(const char *format, ...);
 
 #endif // COMMON_H

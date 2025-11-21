@@ -25,14 +25,14 @@ int bind_socket_to_port(int server_socket)
 
         if (bind_res < 0)
         {
-            throw_error_gracefully("port %d already in use", port);
+            log_error("port %d already in use", port);
             port++;
         }
     } while ((bind_res < 0 && port <= MAX_PORT));
 
     if (bind_res < 0)
     {
-        throw_error_gracefully("no avaliable port found");
+        log_error("no avaliable port found");
         return -1;
     }
     else
@@ -55,7 +55,7 @@ void listen_for_connections(int server_fd)
         client_socket = accept(server_fd, (struct sockaddr *)&client_addr, &client_addr_len);
         if (client_socket < 0)
         {
-            throw_error_gracefully("accept failed: %s", strerror(errno));
+            log_error("accept failed: %s", strerror(errno));
             continue;
         }
 

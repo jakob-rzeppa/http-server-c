@@ -23,7 +23,7 @@ int handle_request(int client_socket)
         // Compile regex
         if (regcomp(&regex, pattern, REG_EXTENDED) != 0)
         {
-            throw_error_gracefully("regex compilation failed");
+            log_error("regex compilation failed");
             free(buffer);
             return -1;
         }
@@ -31,7 +31,7 @@ int handle_request(int client_socket)
         // Execute regex
         if (regexec(&regex, buffer, 3, matches, 0) != 0)
         {
-            throw_error_gracefully("invalid request: invalid header");
+            log_error("invalid request: invalid header");
             regfree(&regex);
             free(buffer);
             return -1;
