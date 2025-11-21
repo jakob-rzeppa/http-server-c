@@ -4,8 +4,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <errno.h>
 
-#include "/workspaces/http-server-c/src/response_handler.c"
 #include "/workspaces/http-server-c/src/socket_handler.c"
 
 int main(int argc, char const *argv[])
@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
     server_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket < 0)
     {
-        perror("socket failed");
+        printf("socket failed: %s\n", strerror(errno));
         exit(EXIT_FAILURE);
     }
     printf("Socket connected\n");
@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
     int port = bind_socket_to_port(server_socket);
     if (port < 0)
     {
-        perror("bind failed");
+        printf("bind failed: %s\n", strerror(errno));
         close(server_socket);
         exit(EXIT_FAILURE);
     }
@@ -37,7 +37,7 @@ int main(int argc, char const *argv[])
     // listening to the socket
     if ((listen(server_socket, MAX_QUEUED_CONNECTIONS)) < 0)
     {
-        perror("listen failed");
+        printf("listen failed: %s\n", strerror(errno));
         close(server_socket);
         exit(EXIT_FAILURE);
     }

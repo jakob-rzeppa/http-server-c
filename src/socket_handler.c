@@ -2,11 +2,14 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <unistd.h>
+
+#include "/workspaces/http-server-c/src/response_handler.c"
 
 // The programm will try to connect to the PORT
 // If the port is in use, it will try the next port, until reaching the MAX_PORT
 #define PORT 3000
-#define MAX_PORT 3001
+#define MAX_PORT 3005
 #define MAX_QUEUED_CONNECTIONS 3
 
 /**
