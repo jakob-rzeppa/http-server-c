@@ -1,4 +1,4 @@
-#include <string.h>
+#include "/workspaces/http-server-c/src/common.h"
 
 #include "/workspaces/http-server-c/src/notes_controller.c"
 
@@ -24,13 +24,13 @@ int route_request(int client_socket, char *method, char *path)
         }
         else
         {
-            // no valid http method for path
+            throw_error_gracefully("invalid request: invalid method %s for %s", method, path);
             return -1;
         }
     }
     else
     {
-        // no valid path
+        throw_error_gracefully("invalid request: invalid path %s", path);
         return -1;
     }
 }

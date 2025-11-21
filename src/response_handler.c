@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/socket.h>
+#include "/workspaces/http-server-c/src/common.h"
 
 char *generate_status_code_line(int statusCode)
 {

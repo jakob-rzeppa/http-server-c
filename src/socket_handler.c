@@ -1,18 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <regex.h>
-#include <errno.h>
+#include "/workspaces/http-server-c/src/common.h"
 
 #include "/workspaces/http-server-c/src/request_handler.c"
-
-// The programm will try to connect to the PORT
-// If the port is in use, it will try the next port, until reaching the MAX_PORT
-#define PORT 3000
-#define MAX_PORT 3005
-#define MAX_QUEUED_CONNECTIONS 3
 
 /**
  * Binds the socket to a port
@@ -61,7 +49,7 @@ void listen_for_connections(int server_fd)
         client_socket = accept(server_fd, (struct sockaddr *)&client_addr, &client_addr_len);
         if (client_socket < 0)
         {
-            printf("accept failed: %s\n", strerror(errno));
+            throw_error_gracefully("accept failed: %s", strerror(errno));
             continue;
         }
 

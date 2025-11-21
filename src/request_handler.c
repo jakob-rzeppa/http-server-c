@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <regex.h>
+#include "/workspaces/http-server-c/src/common.h"
 
 #include "/workspaces/http-server-c/src/request_router.c"
 
@@ -28,7 +23,7 @@ int handle_request(int client_socket)
         // Compile regex
         if (regcomp(&regex, pattern, REG_EXTENDED) != 0)
         {
-            // regex compilation failed
+            throw_error_gracefully("regex compilation failed");
             free(buffer);
             return -1;
         }
@@ -36,7 +31,7 @@ int handle_request(int client_socket)
         // Execute regex
         if (regexec(&regex, buffer, 3, matches, 0) != 0)
         {
-            // invalid http header
+            throw_error_gracefully("invalid request: invalid header");
             regfree(&regex);
             free(buffer);
             return -1;
