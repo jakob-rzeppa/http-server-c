@@ -35,7 +35,6 @@ void send_socket_headers(int client_socket, int statusCode, int bodySize)
     // 2 for "\r\n"
     char *contentLengthLine = (char *)malloc(sizeof(char) * (contentLengthLineSize + 1 /* esc char */));
     snprintf(contentLengthLine, contentLengthLineSize, "Content-Length: %d\r\n", bodySize);
-    printf(contentLengthLine);
     send(client_socket, contentLengthLine, strlen(contentLengthLine), 0);
     free(contentLengthLine);
 
