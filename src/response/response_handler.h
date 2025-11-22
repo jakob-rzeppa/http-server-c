@@ -26,9 +26,10 @@ void send_socket_headers(int client_socket, int statusCode, int bodySize);
  *
  * @param client_socket The socket descriptor
  * @param status_code The HTTP status code
- * @param body The response body
+ * @param bodyFormat The response body - Printf-style format string
+ * @param ... Variable arguments
  * @return SUCCESSFUL or error code
  */
-int send_response(int client_socket, int status_code, char *body);
+int send_response(int client_socket, int status_code, char *bodyFormat, ...);
 
 #endif // RESPONSE_HANDLER_H

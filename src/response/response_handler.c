@@ -40,9 +40,30 @@ void send_socket_headers(int client_socket, int statusCode, int bodySize)
     send(client_socket, newlineLine, strlen(newlineLine), 0);
 }
 
-int send_response(int client_socket, int statusCode, char *body)
+int send_response(int client_socket, int statusCode, char *bodyFormat, ...)
 {
-    send_socket_headers(client_socket, statusCode, strlen(body));
+    char *body = (char *)malloc(sizeof(char) * RESPONSE_BUFFER_SIZE);
 
+    va_list args;
+    va_start(args, bodyFormat);
+    int snprintf_res = vsnprintf(body, RESPONSE_BUFFER_SIZE, bodyFormat, args);
+    va_end(args);
+
+    if (snprintf_res < 0 || snprintf_res >= RESPONSE_BUFFER_SIZE) {
+        log_error("response body overflow: exceeded buffer size of %d with %d characters", RESPONSE_BUFFER_SIZE, snprintf_res);
+        free(body);
+        body = NULL;
+
+        char *error_body = "{\"message\": \"response body overflow\"}";
+        send_socket_headers(client_socket, 500, strlen(error_body));
+        send(client_socket, error_body, strlen(error_body), 0);
+
+        return FAILED_AND_SEND_RESPONSE;
+    }
+
+    send_socket_headers(client_socket, statusCode, strlen(body));
     send(client_socket, body, strlen(body), 0);
+
+    free(body);
+    return SUCCESSFUL;
 }
