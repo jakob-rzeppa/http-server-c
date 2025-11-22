@@ -1,7 +1,5 @@
 #include "/workspaces/http-server-c/src/common.h"
 
-#include "/workspaces/http-server-c/src/request_handler.c"
-
 /**
  * Creates a TCP socket.
  * 
