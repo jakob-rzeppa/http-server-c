@@ -22,8 +22,15 @@
 #define MAX_QUEUED_CONNECTIONS 3
 #define BUFFER_SIZE 4096
 
+// error codes
+#define SUCCESSFUL 0
+#define FAILED -1
+#define FAILED_SHOULD_EXIT -2
+#define FAILED_AND_SEND_RESPONSE -3
+
 // Shared function declarations
 int string_insert(char *target, int targetBufferSize, int *index, const char *source);
+void log_info(const char *format, ...);
 void log_error(const char *format, ...);
 
 #endif // COMMON_H
