@@ -25,7 +25,7 @@ int handle_request(int client_socket)
         {
             log_error("regex compilation failed");
             free(buffer);
-            return -1;
+            return FAILED_SHOULD_EXIT;
         }
 
         // Execute regex
@@ -34,7 +34,9 @@ int handle_request(int client_socket)
             log_error("invalid request: invalid header");
             regfree(&regex);
             free(buffer);
-            return -1;
+            char *res_body = "{ \"message\": \"invalid request: invalid header\"}";
+            send(client_socket, res_body, strlen(res_body), 0);
+            return FAILED_AND_SEND_RESPONSE;
         }
 
         // extract method
@@ -49,6 +51,7 @@ int handle_request(int client_socket)
         strncpy(url_encoded_path, buffer + matches[2].rm_so, url_encoded_path_len);
         *(url_encoded_path + url_encoded_path_len) = '\0';
 
+        // error handling not nessesary since all errors from this point onward should not exit the program
         route_request(client_socket, method, url_encoded_path);
 
         free(method);
@@ -57,5 +60,5 @@ int handle_request(int client_socket)
     }
 
     free(buffer);
-    return 0;
+    return SUCCESSFUL;
 }

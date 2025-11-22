@@ -22,14 +22,10 @@ int main(int argc, char const *argv[])
     }
 
     // listening to the socket
-    if ((listen(server_socket, MAX_QUEUED_CONNECTIONS)) < 0)
-    {
-        log_error("listen failed: %s", strerror(errno));
+    if (listen_for_connections(server_socket) == FAILED_SHOULD_EXIT) {
         close(server_socket);
         exit(EXIT_FAILURE);
     }
-
-    listen_for_connections(server_socket);
 
     log_info("Shutdown server");
     close(server_socket);
