@@ -24,13 +24,15 @@ int route_request(int client_socket, char *method, char *path, char* body)
         else
         {
             log_error("invalid request: invalid method %s for %s", method, path);
-            return FAILED;
+            send_response(client_socket, 400, "{\"message\": \"invalid request: invalid method %s for %s\"}", method, path);
+            return FAILED_AND_SEND_RESPONSE;
         }
     }
     else
     {
         log_error("invalid request: invalid path %s", path);
-        return FAILED;
+            send_response(client_socket, 400, "{\"message\": \"invalid request: invalid path %s\"}", path);
+        return FAILED_AND_SEND_RESPONSE;
     }
 
     return SUCCESSFUL;
