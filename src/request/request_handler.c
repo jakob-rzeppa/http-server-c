@@ -1,7 +1,5 @@
 #include "request_handler.h"
 
-#define REQUEST_BUFFER_SIZE 1024
-
 int handle_request(int client_socket)
 {
     char *buffer = (char *)malloc(sizeof(char) * REQUEST_BUFFER_SIZE);
