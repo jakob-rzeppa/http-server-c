@@ -1,8 +1,8 @@
 #ifndef CONNECTION_LISTENER_H
 #define CONNECTION_LISTENER_H
 
-#include "common.h"
-#include "request_handler.h"
+#include "../common.h"
+#include "../request/request_handler.h"
 
 /**
  * Listens for incoming connections on the socket

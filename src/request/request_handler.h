@@ -1,8 +1,8 @@
 #ifndef REQUEST_HANDLER_H
 #define REQUEST_HANDLER_H
 
-#include "common.h"
-#include "request_router.h"
+#include "../common.h"
+#include "../request/request_router.h"
 
 /**
  * Handles an incoming HTTP request from a client

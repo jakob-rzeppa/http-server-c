@@ -1,8 +1,8 @@
 #ifndef REQUEST_ROUTER_H
 #define REQUEST_ROUTER_H
 
-#include "common.h"
-#include "notes_controller.h"
+#include "../common.h"
+#include "../controller/notes_controller.h"
 
 /**
  * Routes HTTP requests to appropriate handlers

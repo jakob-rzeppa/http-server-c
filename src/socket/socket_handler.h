@@ -1,7 +1,7 @@
 #ifndef SOCKET_HANDLER_H
 #define SOCKET_HANDLER_H
 
-#include "common.h"
+#include "../common.h"
 
 /**
  * Creates a TCP socket.

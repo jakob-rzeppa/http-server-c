@@ -1,8 +1,8 @@
 #ifndef RESPONSE_HANDLER_H
 #define RESPONSE_HANDLER_H
 
-#include "common.h"
-#include "util/string_insert.h"
+#include "../common.h"
+#include "../util/string_insert.h"
 
 /**
  * Generates the HTTP status line for a given status code

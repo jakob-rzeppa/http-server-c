@@ -1,7 +1,7 @@
 #ifndef NOTES_REPOSITORY_H
 #define NOTES_REPOSITORY_H
 
-#include "common.h"
+#include "../common.h"
 
 struct note
 {

@@ -1,7 +1,7 @@
 #ifndef STRING_INSERT_H
 #define STRING_INSERT_H
 
-#include <string.h>
+#include "../common.h"
 
 /**
  * Inserts a string into another, starting at a given index. 

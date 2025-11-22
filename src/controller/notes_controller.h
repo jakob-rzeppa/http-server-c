@@ -1,9 +1,9 @@
 #ifndef NOTES_CONTROLLER_H
 #define NOTES_CONTROLLER_H
 
-#include "common.h"
-#include "notes_repository.h"
-#include "response_handler.h"
+#include "../common.h"
+#include "../repository/notes_repository.h"
+#include "../response/response_handler.h"
 
 /**
  * Handles GET request for notes
