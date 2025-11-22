@@ -1,6 +1,4 @@
-#include "/workspaces/http-server-c/src/common.h"
-
-#include "/workspaces/http-server-c/src/request_router.c"
+#include "request_handler.h"
 
 #define REQUEST_BUFFER_SIZE 1024
 

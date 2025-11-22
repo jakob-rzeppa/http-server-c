@@ -28,10 +28,7 @@
 #define FAILED_SHOULD_EXIT -2
 #define FAILED_AND_SEND_RESPONSE -3
 
-// Shared function declarations
-void log_info(const char *format, ...);
-void log_error(const char *format, ...);
-
-#include "/workspaces/http-server-c/src/logger.c"
+// logger
+#include "logger.h"
 
 #endif // COMMON_H

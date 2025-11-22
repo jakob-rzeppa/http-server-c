@@ -1,7 +1,6 @@
-#include "/workspaces/http-server-c/src/common.h"
-
-#include "/workspaces/http-server-c/src/socket_handler.c"
-#include "/workspaces/http-server-c/src/connection_listener.c"
+#include "common.h"
+#include "socket_handler.h"
+#include "connection_listener.h"
 
 int main(int argc, char const *argv[])
 {

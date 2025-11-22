@@ -1,6 +1,4 @@
-#include "/workspaces/http-server-c/src/common.h"
-
-#include "/workspaces/http-server-c/src/request_handler.c"
+#include "connection_listener.h"
 
 int listen_for_connections(int server_socket)
 {

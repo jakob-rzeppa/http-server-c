@@ -1,6 +1,4 @@
-#include "/workspaces/http-server-c/src/common.h"
-
-#include "/workspaces/http-server-c/src/notes_controller.c"
+#include "request_router.h"
 
 int route_request(int client_socket, char *method, char *path)
 {

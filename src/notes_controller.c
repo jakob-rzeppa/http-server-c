@@ -1,7 +1,4 @@
-#include "/workspaces/http-server-c/src/common.h"
-
-#include "/workspaces/http-server-c/src/notes_repository.c"
-#include "/workspaces/http-server-c/src/response_handler.c"
+#include "notes_controller.h"
 
 int handle_get_notes_request(int client_socket)
 {

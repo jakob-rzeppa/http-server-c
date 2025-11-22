@@ -1,4 +1,4 @@
-#include "/workspaces/http-server-c/src/common.h"
+#include "logger.h"
 
 void log_info(const char *format, ...)
 {

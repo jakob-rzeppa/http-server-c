@@ -1,6 +1,4 @@
-#include "/workspaces/http-server-c/src/common.h"
-
-#include "/workspaces/http-server-c/src/util/stringInsert.c"
+#include "response_handler.h"
 
 char *generate_status_code_line(int statusCode)
 {
