@@ -29,8 +29,9 @@
 #define FAILED_AND_SEND_RESPONSE -3
 
 // Shared function declarations
-int string_insert(char *target, int targetBufferSize, int *index, const char *source);
 void log_info(const char *format, ...);
 void log_error(const char *format, ...);
+
+#include "/workspaces/http-server-c/src/logger.c"
 
 #endif // COMMON_H

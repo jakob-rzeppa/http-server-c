@@ -1,5 +1,7 @@
 #include "/workspaces/http-server-c/src/common.h"
 
+#include "/workspaces/http-server-c/src/util/stringInsert.c"
+
 char *generate_status_code_line(int statusCode)
 {
     switch (statusCode)
