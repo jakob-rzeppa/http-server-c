@@ -2,23 +2,24 @@
 
 int route_request(int client_socket, char *method, char *path, char* body)
 {
-    if (strcmp(path, "/notes") == 0)
+    // compare first 6 characters to /notes
+    if (strncmp(path, "/notes", 6) == 0)
     {
         if (strcmp(method, "GET") == 0)
         {
-            handle_get_notes_request(client_socket);
+            handle_get_notes_request(client_socket, path);
         }
         else if (strcmp(method, "POST") == 0)
         {
-            handle_create_note_request(client_socket, body);
+            handle_create_note_request(client_socket, path, body);
         }
         else if (strcmp(method, "PUT") == 0)
         {
-            handle_update_note_request(client_socket, body);
+            handle_update_note_request(client_socket, path, body);
         }
         else if (strcmp(method, "DELETE") == 0)
         {
-            handle_delete_note_request(client_socket);
+            handle_delete_note_request(client_socket, path);
         }
         else
         {

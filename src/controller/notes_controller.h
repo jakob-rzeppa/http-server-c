@@ -8,21 +8,21 @@
 /**
  * Handles GET request for notes
  */
-int handle_get_notes_request(int client_socket);
+int handle_get_notes_request(int client_socket, char *path);
 
 /**
  * Handles POST request to create a note
  */
-int handle_create_note_request(int client_socket, char *body);
+int handle_create_note_request(int client_socket, char *path, char *body);
 
 /**
  * Handles PUT request to update a note
  */
-int handle_update_note_request(int client_socket, char *body);
+int handle_update_note_request(int client_socket, char *path, char *body);
 
 /**
  * Handles DELETE request to delete a note
  */
-int handle_delete_note_request(int client_socket);
+int handle_delete_note_request(int client_socket, char *path);
 
 #endif // NOTES_CONTROLLER_H
