@@ -1,4 +1,4 @@
-#include "stringInsert.h"
+#include "string_insert.h"
 
 /**
  * Inserts a string into another, starting at a given index. The index will be updated to be at the character after the last insertion.
