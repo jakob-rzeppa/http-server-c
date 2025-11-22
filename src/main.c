@@ -7,25 +7,18 @@ int main(int argc, char const *argv[])
 {
     int server_socket;
 
-    // creating the socket - 0 for default protocol (for SOCK_STREAM TCP)
-    server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_socket < 0)
-    {
-        log_error("socket failed: %s", strerror(errno));
-        exit(EXIT_FAILURE);
-    }
-    printf("Socket connected\n");
-
-    // binding the socket to the PORT
-    int port = bind_socket_to_port(server_socket);
-    if (port < 0)
+    // creating the socket
+    if ((server_socket = create_socket()) == FAILED_SHOULD_EXIT)
     {
         close(server_socket);
         exit(EXIT_FAILURE);
     }
-    else
+
+    // binding the socket
+    if (bind_socket_to_port(server_socket) == FAILED_SHOULD_EXIT)
     {
-        printf("Socket bound to PORT %d\n", port);
+        close(server_socket);
+        exit(EXIT_FAILURE);
     }
 
     // listening to the socket
@@ -38,7 +31,7 @@ int main(int argc, char const *argv[])
 
     listen_for_connections(server_socket);
 
-    printf("Shutdown server");
+    log_info("Shutdown server");
     close(server_socket);
     return EXIT_SUCCESS;
 }

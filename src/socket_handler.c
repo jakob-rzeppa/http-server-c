@@ -3,9 +3,29 @@
 #include "/workspaces/http-server-c/src/request_handler.c"
 
 /**
- * Binds the socket to a port
+ * Creates a TCP socket.
+ * 
+ * @return (if successful) server_socket or FAILED_SHOULD_EXIT
+ */
+int create_socket() {
+    int server_socket;
+
+    // 0 for default protocol (for SOCK_STREAM TCP)
+    server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_socket < 0)
+    {
+        log_error("socket failed: %s", strerror(errno));
+        return FAILED_SHOULD_EXIT;
+    }
+
+    log_info("Socket connected\n");
+    return server_socket;
+}
+
+/**
+ * Binds the socket to a port and loggs success message
  *
- * @return the port bound to or -1 for failed to bind port
+ * @return SUCCESSFUL or FAILED_SHOULD_EXIT
  */
 int bind_socket_to_port(int server_socket)
 {
@@ -33,10 +53,9 @@ int bind_socket_to_port(int server_socket)
     if (bind_res < 0)
     {
         log_error("no avaliable port found");
-        return -1;
+        return FAILED_SHOULD_EXIT;
     }
-    else
-    {
-        return port;
-    }
+
+    log_info("Socket bound to PORT %d\n", port);
+    return SUCCESSFUL;
 }
