@@ -31,4 +31,6 @@ int route_request(int client_socket, char *method, char *path, char* body)
         log_error("invalid request: invalid path %s", path);
         return FAILED;
     }
+
+    return SUCCESSFUL;
 }
