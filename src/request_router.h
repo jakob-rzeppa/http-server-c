@@ -12,6 +12,6 @@
  * @param path The request path
  * @return SUCCESSFUL or error code
  */
-int route_request(int client_socket, char *method, char *path);
+int route_request(int client_socket, char *method, char *path, char *body);
 
 #endif // REQUEST_ROUTER_H

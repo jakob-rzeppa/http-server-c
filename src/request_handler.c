@@ -13,10 +13,11 @@ int handle_request(int client_socket)
         // matches[0] = entire match
         // matches[1] = first capture group (GET|POST|PUT|DELETE)
         // matches[2] = second capture group (path)
-        regmatch_t matches[3];
+        // matches[3] = third capture group (body)
+        regmatch_t matches[4];
 
-        // Pattern: (GET|POST|PUT|DELETE) <space> (path) <space> HTTP/version
-        const char *pattern = "^(GET|POST|PUT|DELETE) ([^ ]+) HTTP/[0-9]\\.[0-9]";
+        // Pattern: (GET|POST|PUT|DELETE) <space> (path) <space> HTTP/version <newline> <body in {}>
+        const char *pattern = "^(GET|POST|PUT|DELETE) ([^ ]+) HTTP/[0-9]\\.[0-9].*\r\n\r\n(\\{[^}]*\\})?";
 
         // Compile regex
         if (regcomp(&regex, pattern, REG_EXTENDED) != 0)
@@ -27,7 +28,7 @@ int handle_request(int client_socket)
         }
 
         // Execute regex
-        if (regexec(&regex, buffer, 3, matches, 0) != 0)
+        if (regexec(&regex, buffer, 4, matches, 0) != 0)
         {
             log_error("invalid request: invalid header");
             regfree(&regex);
@@ -49,11 +50,25 @@ int handle_request(int client_socket)
         strncpy(url_encoded_path, buffer + matches[2].rm_so, url_encoded_path_len);
         *(url_encoded_path + url_encoded_path_len) = '\0';
 
+        // extract body (optional)
+        char *body = NULL;
+        if (matches[3].rm_so != -1)
+        {
+            int body_len = matches[3].rm_eo - matches[3].rm_so;
+            body = (char *)malloc(body_len + 1 /* esc char */);
+            strncpy(body, buffer + matches[3].rm_so, body_len);
+            *(body + body_len) = '\0';
+        }
+
         // error handling not nessesary since all errors from this point onward should not exit the program
-        route_request(client_socket, method, url_encoded_path);
+        route_request(client_socket, method, url_encoded_path, body);
 
         free(method);
         free(url_encoded_path);
+        if (body != NULL)
+        {
+            free(body);
+        }
         regfree(&regex);
     }
 

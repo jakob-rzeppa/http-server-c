@@ -13,12 +13,12 @@ int handle_get_notes_request(int client_socket);
 /**
  * Handles POST request to create a note
  */
-int handle_create_note_request(int client_socket);
+int handle_create_note_request(int client_socket, char *body);
 
 /**
  * Handles PUT request to update a note
  */
-int handle_update_note_request(int client_socket);
+int handle_update_note_request(int client_socket, char *body);
 
 /**
  * Handles DELETE request to delete a note
