@@ -1,6 +1,6 @@
 #include "notes_controller.h"
 
-#include "../util/json_parser.h"
+#include "../util/body_parser.h"
 
 int handle_get_notes_request(int client_socket, char *path)
 {

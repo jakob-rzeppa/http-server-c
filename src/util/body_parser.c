@@ -1,4 +1,4 @@
-#include "json_parser.h"
+#include "body_parser.h"
 
 // Parse create request - MAKE SURE TO FREE THE RETURN VALUE
 char *parse_create_request(char *request_body)
