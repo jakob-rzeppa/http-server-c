@@ -49,7 +49,8 @@ int send_response(int client_socket, int statusCode, char *bodyFormat, ...)
     int snprintf_res = vsnprintf(body, RESPONSE_BUFFER_SIZE, bodyFormat, args);
     va_end(args);
 
-    if (snprintf_res < 0 || snprintf_res >= RESPONSE_BUFFER_SIZE) {
+    if (snprintf_res < 0 || snprintf_res >= RESPONSE_BUFFER_SIZE)
+    {
         log_error("response body overflow: exceeded buffer size of %d with %d characters", RESPONSE_BUFFER_SIZE, snprintf_res);
         free(body);
         body = NULL;
