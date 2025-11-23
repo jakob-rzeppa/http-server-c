@@ -12,21 +12,21 @@ struct note
 /**
  * Retrieves all notes
  */
-int get_notes(int client_socket, int id);
+int get_notes(int id);
 
 /**
  * Creates a new note
  */
-int create_note(int client_socket, char *content);
+int create_note(char *content);
 
 /**
  * Updates an existing note
  */
-int update_note(int client_socket, int id, char *content);
+int update_note(int id, char *content);
 
 /**
  * Deletes a note
  */
-int delete_note(int client_socket, int id);
+int delete_note(int id);
 
 #endif // NOTES_REPOSITORY_H

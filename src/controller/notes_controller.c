@@ -27,7 +27,9 @@ int handle_create_note_request(int client_socket, char *path, char *body)
         return FAILED_AND_SEND_RESPONSE;
     }
 
-    send_response(client_socket, 200, content);
+    create_note(content);
+
+    send_response(client_socket, 200, "{\"message\": \"succesfully created note\"}");
 
     free(content);
     return SUCCESSFUL;
