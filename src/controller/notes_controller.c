@@ -2,6 +2,7 @@
 
 #include "../util/body_parser.h"
 #include "../util/path_parser.h"
+#include "../repository/notes_repository.h"
 
 int handle_get_notes_request(int client_socket, char *path)
 {

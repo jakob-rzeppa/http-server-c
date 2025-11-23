@@ -7,18 +7,18 @@ struct note
     char *content;
 };
 
-int get_notes(int client_socket)
+int get_notes(int client_socket, int id)
 {
 }
 
-int create_note(int client_socket)
+int create_note(int client_socket, char *content)
 {
 }
 
-int update_note(int client_socket)
+int update_note(int client_socket, int id, char *content)
 {
 }
 
-int delete_note(int client_socket)
+int delete_note(int client_socket, int id)
 {
 }
