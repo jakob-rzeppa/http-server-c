@@ -1,11 +1,20 @@
 #include "notes_controller.h"
 
 #include "../util/body_parser.h"
+#include "../util/path_parser.h"
 
 int handle_get_notes_request(int client_socket, char *path)
 {
+    int id = extract_notes_id(path);
+    if (id == FAILED)
+    {
+        send_response(client_socket, 400, "{\"message\": \"invalid path: couldn't extract id\"}");
+        return FAILED_AND_SEND_RESPONSE;
+    }
 
-    send_response(client_socket, 200, "{\"message\": \"success\"}");
+    send_response(client_socket, 200, "{\"message\": \"%d\"}", id);
+
+    return SUCCESSFUL;
 }
 
 int handle_create_note_request(int client_socket, char *path, char *body)
@@ -40,6 +49,14 @@ int handle_update_note_request(int client_socket, char *path, char *body)
 
 int handle_delete_note_request(int client_socket, char *path)
 {
+    int id = extract_notes_id(path);
+    if (id == FAILED)
+    {
+        send_response(client_socket, 400, "{\"message\": \"invalid path: couldn't extract id\"}");
+        return FAILED_AND_SEND_RESPONSE;
+    }
 
-    send_response(client_socket, 200, "{\"message\": \"success\"}");
+    send_response(client_socket, 200, "{\"message\": \"%d\"}", id);
+
+    return SUCCESSFUL;
 }
