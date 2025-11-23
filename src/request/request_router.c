@@ -7,18 +7,22 @@ int route_request(int client_socket, char *method, char *path, char* body)
     {
         if (strcmp(method, "GET") == 0)
         {
+            log_info("handling %s %s request", method, path);
             handle_get_notes_request(client_socket, path);
         }
         else if (strcmp(method, "POST") == 0)
         {
+            log_info("handling %s %s request", method, path);
             handle_create_note_request(client_socket, path, body);
         }
         else if (strcmp(method, "PUT") == 0)
         {
+            log_info("handling %s %s request", method, path);
             handle_update_note_request(client_socket, path, body);
         }
         else if (strcmp(method, "DELETE") == 0)
         {
+            log_info("handling %s %s request", method, path);
             handle_delete_note_request(client_socket, path);
         }
         else
