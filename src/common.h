@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <stdbool.h>
 
 // Network includes
 #include <sys/socket.h>
@@ -22,6 +23,8 @@
 #define MAX_QUEUED_CONNECTIONS 3
 #define REQUEST_BUFFER_SIZE 4096
 #define RESPONSE_BUFFER_SIZE 4096
+#define DATABASE_PATH "/var/c-http-server-notes.csv"
+#define DATABASE_LINE_BUFFER_SIZE 4096
 
 // error codes
 #define SUCCESSFUL 0
