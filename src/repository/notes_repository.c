@@ -20,46 +20,34 @@ int get_notes(int id)
 
 int create_note(char *content)
 {
-    FILE *fptr;
+    FILE *file;
 
     // --- FIND THE ID ---
-    fptr = fopen(DATABASE_PATH, "r" /* read mode */);
-    if (fptr == NULL)
+    file = fopen(DATABASE_PATH, "r" /* read mode */);
+    if (file == NULL)
     {
         log_error("create_note failed: could not open file: %s", strerror(errno));
         return FAILED;
     }
 
+    char *line_buffer = (char *)malloc(sizeof(char) * DATABASE_LINE_BUFFER_SIZE);
+
     int highest_id = 0;
-    bool is_end_of_file = false;
-    do
+    while (fgets(line_buffer, DATABASE_LINE_BUFFER_SIZE - 1, file) != NULL)
     {
-        char id_buffer[10] = ""; // 10 because a 32-Bit int has max 10 digits
+        // atoi will stop reading at the first non-numeric character (';')
+        int current_id = atoi(line_buffer);
 
-        int c;
-
-        int index = 0;
-        while ((c = getc(fptr)) != EOF && c != ';')
+        // Only write the line if it's not the one we want to delete
+        if (current_id > highest_id)
         {
-            id_buffer[index++] = c;
+            highest_id = current_id;
         }
+    }
 
-        int id = atoi(id_buffer);
-
-        if (id > highest_id)
-            highest_id = id;
-
-        while ((c = fgetc(fptr)) != EOF && c != '\n')
-        {
-        }
-
-        if (c == EOF)
-            is_end_of_file = true;
-
-    } while (!is_end_of_file);
-
-    fclose(fptr);
-    fptr = NULL;
+    free(line_buffer);
+    fclose(file);
+    file = NULL;
 
     // --- ASSEMBLE THE LINE ---
     int content_size = strlen(content);
@@ -75,18 +63,18 @@ int create_note(char *content)
     }
 
     // --- APPEND THE LINE ---
-    fptr = fopen(DATABASE_PATH, "a" /* append mode */);
-    if (fptr == NULL)
+    file = fopen(DATABASE_PATH, "a" /* append mode */);
+    if (file == NULL)
     {
         log_error("create_note failed: could not open file: %s", strerror(errno));
         free(line);
         return FAILED;
     }
 
-    fprintf(fptr, line);
+    fprintf(file, line);
 
-    fclose(fptr);
-    fptr = NULL;
+    fclose(file);
+    file = NULL;
 
     free(line);
     return SUCCESSFUL;
