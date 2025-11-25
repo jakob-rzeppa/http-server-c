@@ -15,7 +15,11 @@ int handle_get_notes_request(int client_socket, char *path)
 
     char *body_buffer = (char *)malloc(sizeof(char) * RESPONSE_BODY_SIZE);
 
-    get_notes_as_json(body_buffer, RESPONSE_BODY_SIZE, id);
+    if (get_notes_as_json(body_buffer, RESPONSE_BODY_SIZE, id) == FAILED)
+    {
+        send_response(client_socket, 400, "{\"message\": \"response body buffer overflow\"}");
+        return FAILED_AND_SEND_RESPONSE;
+    }
 
     send_response(client_socket, 200, body_buffer);
 
@@ -33,7 +37,11 @@ int handle_create_note_request(int client_socket, char *path, char *body)
         return FAILED_AND_SEND_RESPONSE;
     }
 
-    create_note(content);
+    if (create_note(content) == FAILED)
+    {
+        send_response(client_socket, 400, "{\"message\": \"creating of the note failed\"}");
+        return FAILED_AND_SEND_RESPONSE;
+    }
 
     send_response(client_socket, 200, "{\"message\": \"succesfully created note\"}");
 
@@ -57,7 +65,11 @@ int handle_update_note_request(int client_socket, char *path, char *body)
         return FAILED_AND_SEND_RESPONSE;
     }
 
-    update_note(id, content);
+    if (update_note(id, content) == FAILED)
+    {
+        send_response(client_socket, 400, "{\"message\": \"updating of the note failed - probably because the id does not exist\"}");
+        return FAILED_AND_SEND_RESPONSE;
+    }
 
     send_response(client_socket, 200, content);
 
@@ -74,7 +86,11 @@ int handle_delete_note_request(int client_socket, char *path)
         return FAILED_AND_SEND_RESPONSE;
     }
 
-    delete_note(id);
+    if (delete_note(id) == FAILED)
+    {
+        send_response(client_socket, 400, "{\"message\": \"deletion of the note failed\"}");
+        return FAILED_AND_SEND_RESPONSE;
+    }
 
     send_response(client_socket, 200, "{\"message\": \"%d\"}", id);
 
