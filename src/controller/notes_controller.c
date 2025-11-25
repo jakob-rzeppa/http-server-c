@@ -64,7 +64,7 @@ int handle_update_note_request(int client_socket, char *path, char *body)
         return FAILED_AND_SEND_RESPONSE;
     }
 
-    send_response(client_socket, 200, content);
+    send_response(client_socket, 200, "{\"message\": \"succesfully updated note\"}");
 
     free(content);
     return SUCCESSFUL;
@@ -85,7 +85,7 @@ int handle_delete_note_request(int client_socket, char *path)
         return FAILED_AND_SEND_RESPONSE;
     }
 
-    send_response(client_socket, 200, "{\"message\": \"%d\"}", id);
+    send_response(client_socket, 200, "{\"message\": \"succesfully deleted note\"}");
 
     return SUCCESSFUL;
 }
