@@ -77,6 +77,12 @@ int get_notes_as_json(char *json_notes_buffer, int json_notes_buffer_size)
 
     fclose(file);
 
+    if (buffer_index == 18)
+    {
+        strcpy(json_notes_buffer, "{\"notes\": []}");
+        return SUCCESSFUL;
+    }
+
     // since it subtracts 8, it cant overflow
     strcpy(json_notes_buffer + buffer_index - 8, "]}");
 
