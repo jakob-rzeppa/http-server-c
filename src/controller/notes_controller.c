@@ -13,7 +13,13 @@ int handle_get_notes_request(int client_socket, char *path)
         return FAILED_AND_SEND_RESPONSE;
     }
 
-    send_response(client_socket, 200, "{\"message\": \"%d\"}", id);
+    char *body_buffer = (char *)malloc(sizeof(char) * RESPONSE_BODY_SIZE);
+
+    get_notes_as_json(body_buffer, RESPONSE_BODY_SIZE, id);
+
+    send_response(client_socket, 200, body_buffer);
+
+    free(body_buffer);
 
     return SUCCESSFUL;
 }

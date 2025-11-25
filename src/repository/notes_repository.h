@@ -10,9 +10,9 @@ struct note
 };
 
 /**
- * Retrieves all notes
+ * Retrieves all notes and return as a json string
  */
-int get_notes(int id);
+int get_notes_as_json(char *json_notes_buffer, int json_notes_buffer_size, int id);
 
 /**
  * Creates a new note

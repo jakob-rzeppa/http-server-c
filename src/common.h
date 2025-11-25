@@ -22,7 +22,8 @@
 #define MAX_PORT 3010 // If the port is in use, it will try the next port, until reaching the MAX_PORT
 #define MAX_QUEUED_CONNECTIONS 3
 #define REQUEST_BUFFER_SIZE 4096
-#define RESPONSE_BUFFER_SIZE 4096
+#define RESPONSE_BUFFER_SIZE 16384
+#define RESPONSE_BODY_SIZE 2048
 #define DATABASE_PATH "/var/c-http-server-notes.csv"
 #define DATABASE_LINE_BUFFER_SIZE 4096
 

@@ -13,8 +13,73 @@ struct note
     char *content;
 };
 
-int get_notes(int id)
+int get_notes_as_json(char *json_notes_buffer, int json_notes_buffer_size, int id)
 {
+    int buffer_index = 0;
+    if (buffer_index + 18 >= json_notes_buffer_size)
+    {
+        log_error("get notes response body overflow");
+        return FAILED;
+    }
+    strcpy(json_notes_buffer, "{\"notes\": [{\"id\": ");
+    buffer_index += 18;
+
+    FILE *file;
+
+    file = fopen(DATABASE_PATH, "r" /* read mode */);
+
+    int c;
+    int column = 0; // 0 = id, 1 = content_size, 2 = content
+    while ((c = getc(file)) != EOF)
+    {
+        if (c == ';')
+        {
+            column++;
+
+            if (column == 2)
+            {
+                if (buffer_index + 13 >= json_notes_buffer_size)
+                {
+                    fclose(file);
+                    log_error("get notes response body overflow");
+                    return FAILED;
+                }
+                strcpy(json_notes_buffer + buffer_index, ",\"content\": \"");
+                buffer_index += 13;
+            }
+        }
+        else if (c == '\n')
+        {
+            column = 0;
+            if (buffer_index + 10 >= json_notes_buffer_size)
+            {
+                fclose(file);
+                log_error("get notes response body overflow");
+                return FAILED;
+            }
+            strcpy(json_notes_buffer + buffer_index, "\"},{\"id\": ");
+            buffer_index += 10;
+        }
+        else
+        {
+            if (column != 1)
+            {
+                if (buffer_index + 1 >= json_notes_buffer_size)
+                {
+                    fclose(file);
+                    log_error("get notes response body overflow");
+                    return FAILED;
+                }
+                *(json_notes_buffer + buffer_index++) = c;
+            }
+        }
+    }
+
+    fclose(file);
+
+    // since it subtracts 8, it cant overflow
+    strcpy(json_notes_buffer + buffer_index - 8, "]}");
+
     return SUCCESSFUL;
 }
 
