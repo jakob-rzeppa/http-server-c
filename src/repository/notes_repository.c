@@ -99,5 +99,76 @@ int update_note(int id, char *content)
 
 int delete_note(int id)
 {
+    FILE *file;
+    FILE *temp;
+
+    // --- STORE A COPY OF THE FILE WITHOUT THE LINE ---
+    file = fopen(DATABASE_PATH, "r" /* read mode */);
+    if (file == NULL)
+    {
+        log_error("delete_note failed: could not open file: %s", strerror(errno));
+        return FAILED;
+    }
+
+    temp = fopen("delete_notes.tmp", "w" /* write mode */);
+    if (temp == NULL)
+    {
+        log_error("delete_note failed: could not open temp file: %s", strerror(errno));
+        fclose(file);
+        return FAILED;
+    }
+
+    char *file_line_buffer = (char *)malloc(sizeof(char) * DATABASE_LINE_BUFFER_SIZE);
+
+    while (fgets(file_line_buffer, DATABASE_LINE_BUFFER_SIZE - 1, file) != NULL)
+    {
+        // atoi will stop reading at the first non-numeric character (';')
+        int current_id = atoi(file_line_buffer);
+
+        // Only write the line if it's not the one we want to delete
+        if (current_id != id)
+        {
+            fprintf(temp, file_line_buffer);
+        }
+    }
+
+    free(file_line_buffer);
+    fclose(temp);
+    temp = NULL;
+    fclose(file);
+    file = NULL;
+
+    // --- WRITE THE COPY TO THE FILE ---
+    temp = fopen("delete_notes.tmp", "r" /* read mode */);
+    if (temp == NULL)
+    {
+        log_error("delete_note failed: could not open temp file: %s", strerror(errno));
+        fclose(file);
+        return FAILED;
+    }
+
+    file = fopen(DATABASE_PATH, "w" /* write mode */);
+    if (file == NULL)
+    {
+        log_error("delete_note failed: could not open file: %s", strerror(errno));
+        return FAILED;
+    }
+
+    char *temp_line_buffer = (char *)malloc(sizeof(char) * DATABASE_LINE_BUFFER_SIZE);
+
+    while (fgets(temp_line_buffer, DATABASE_LINE_BUFFER_SIZE - 1, temp) != NULL)
+    {
+        fprintf(file, temp_line_buffer);
+    }
+
+    free(temp_line_buffer);
+    fclose(file);
+    file = NULL;
+    fclose(temp);
+    temp = NULL;
+
+    // --- DELETE TEMP FILE ---
+    remove("delete_notes.tmp");
+
     return SUCCESSFUL;
 }

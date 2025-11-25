@@ -59,6 +59,8 @@ int handle_delete_note_request(int client_socket, char *path)
         return FAILED_AND_SEND_RESPONSE;
     }
 
+    delete_note(id);
+
     send_response(client_socket, 200, "{\"message\": \"%d\"}", id);
 
     return SUCCESSFUL;
