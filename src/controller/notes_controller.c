@@ -6,16 +6,9 @@
 
 int handle_get_notes_request(int client_socket, char *path)
 {
-    int id = extract_notes_id(path);
-    if (id == FAILED)
-    {
-        send_response(client_socket, 400, "{\"message\": \"invalid path: couldn't extract id\"}");
-        return FAILED_AND_SEND_RESPONSE;
-    }
-
     char *body_buffer = (char *)malloc(sizeof(char) * RESPONSE_BODY_SIZE);
 
-    if (get_notes_as_json(body_buffer, RESPONSE_BODY_SIZE, id) == FAILED)
+    if (get_notes_as_json(body_buffer, RESPONSE_BODY_SIZE) == FAILED)
     {
         send_response(client_socket, 400, "{\"message\": \"response body buffer overflow\"}");
         return FAILED_AND_SEND_RESPONSE;

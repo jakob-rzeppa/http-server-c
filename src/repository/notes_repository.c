@@ -13,7 +13,7 @@ struct note
     char *content;
 };
 
-int get_notes_as_json(char *json_notes_buffer, int json_notes_buffer_size, int id)
+int get_notes_as_json(char *json_notes_buffer, int json_notes_buffer_size)
 {
     int buffer_index = 0;
     if (buffer_index + 18 >= json_notes_buffer_size)
