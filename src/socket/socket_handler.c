@@ -2,14 +2,15 @@
 
 /**
  * Creates a TCP socket.
- * 
+ *
  * @return (if successful) server_socket or FAILED_SHOULD_EXIT
  */
-int create_socket() {
+int create_socket()
+{
     int server_socket;
 
     // 0 for default protocol (for SOCK_STREAM TCP)
-    server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    server_socket = socket(AF_INET, SOCK_STREAM, SOCKET_PROTOCOL_TCP);
     if (server_socket < 0)
     {
         log_error("socket failed: %s", strerror(errno));

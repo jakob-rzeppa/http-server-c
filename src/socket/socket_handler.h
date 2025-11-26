@@ -3,9 +3,11 @@
 
 #include "../common.h"
 
+#define SOCKET_PROTOCOL_TCP 0
+
 /**
  * Creates a TCP socket.
- * 
+ *
  * @return (if successful) server_socket or FAILED_SHOULD_EXIT
  */
 int create_socket();
