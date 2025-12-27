@@ -1,0 +1,23 @@
+services:
+  http-server:
+    build: .
+    container_name: http-server-c
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - redis
+
+  redis:
+    build:
+      context: https://github.com/jakob-rzeppa/redis-clone-rust.git
+    container_name: redis-clone
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
