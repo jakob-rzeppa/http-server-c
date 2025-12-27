@@ -19,7 +19,7 @@
 
 // Project-wide constants
 #define PORT 3000     // The programm will try to connect to the PORT
-#define MAX_PORT 3010 // If the port is in use, it will try the next port, until reaching the MAX_PORT
+#define MAX_PORT 3000 // If the port is in use, it will try the next port, until reaching the MAX_PORT (when using docker the port must be 3000)
 #define MAX_QUEUED_CONNECTIONS 3
 #define REQUEST_BUFFER_SIZE 4096
 #define RESPONSE_BUFFER_SIZE 16384
