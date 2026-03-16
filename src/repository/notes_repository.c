@@ -20,6 +20,11 @@ int get_notes_as_json(char *json_notes_buffer, int json_notes_buffer_size)
     FILE *file;
 
     file = fopen(DATABASE_PATH, "r" /* read mode */);
+    if (file == NULL)
+    {
+        log_error("get_notes_as_json failed: could not open file: %s", strerror(errno));
+        return FAILED;
+    }
 
     int c;
     int column = 0; // 0 = id, 1 = content_size, 2 = content
@@ -135,7 +140,7 @@ int create_note(char *content)
         return FAILED;
     }
 
-    fprintf(file, line);
+    fprintf(file, "%s", line);
 
     fclose(file);
     file = NULL;
@@ -191,12 +196,12 @@ int update_note(int id, char *content)
 
         if (current_id == id)
         {
-            fprintf(temp, line);
+            fprintf(temp, "%s", line);
             update_has_happened = true;
         }
         else
         {
-            fprintf(temp, file_line_buffer);
+            fprintf(temp, "%s", file_line_buffer);
         }
     }
 
@@ -236,7 +241,7 @@ int update_note(int id, char *content)
 
     while (fgets(temp_line_buffer, DATABASE_LINE_BUFFER_SIZE - 1, temp) != NULL)
     {
-        fprintf(file, temp_line_buffer);
+        fprintf(file, "%s", temp_line_buffer);
     }
 
     free(line);
@@ -283,7 +288,7 @@ int delete_note(int id)
         // Only write the line if it's not the one we want to delete
         if (current_id != id)
         {
-            fprintf(temp, file_line_buffer);
+            fprintf(temp, "%s", file_line_buffer);
         }
     }
 
@@ -313,7 +318,7 @@ int delete_note(int id)
 
     while (fgets(temp_line_buffer, DATABASE_LINE_BUFFER_SIZE - 1, temp) != NULL)
     {
-        fprintf(file, temp_line_buffer);
+        fprintf(file, "%s", temp_line_buffer);
     }
 
     free(temp_line_buffer);
