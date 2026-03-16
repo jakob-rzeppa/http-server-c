@@ -1,4 +1,3 @@
-
 #include "notes_repository.h"
 
 /**
@@ -6,12 +5,6 @@
  * id;content-size;content
  * example: 5;12;example note
  */
-
-struct note
-{
-    int id;
-    char *content;
-};
 
 int get_notes_as_json(char *json_notes_buffer, int json_notes_buffer_size)
 {
