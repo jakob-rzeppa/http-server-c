@@ -1,6 +1,6 @@
 #include "common.h"
-#include "socket_handler.h"
-#include "connection_listener.h"
+#include "socket/socket_handler.h"
+#include "socket/connection_listener.h"
 
 int main(int argc, char const *argv[])
 {
@@ -21,7 +21,8 @@ int main(int argc, char const *argv[])
     }
 
     // listening to the socket
-    if (listen_for_connections(server_socket) == FAILED_SHOULD_EXIT) {
+    if (listen_for_connections(server_socket) == FAILED_SHOULD_EXIT)
+    {
         close(server_socket);
         exit(EXIT_FAILURE);
     }
