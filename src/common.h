@@ -24,7 +24,7 @@
 #define REQUEST_BUFFER_SIZE 4096
 #define RESPONSE_BUFFER_SIZE 16384
 #define RESPONSE_BODY_SIZE 2048
-#define DATABASE_PATH "/var/c-http-server-notes.csv"
+#define DATABASE_PATH "./c-http-server-notes.csv"
 #define DATABASE_LINE_BUFFER_SIZE 4096
 
 // error codes
